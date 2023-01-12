@@ -4,9 +4,9 @@
       <BarraLateral />
     </div>
     <div class="column is-three-quarters">
-      <FormuLario @aoSalvarTarefa="salvarTarefa"/>
+      <FormuLario @aoSalvarTarefa="saveTask"/>
       <div class="lista">
-        <TarefaItem v-for="(tarefa, index) in tarefas" :key="index" :tarefa="tarefa" @onDelete="deleteTask(tarefa)"/>
+        <TarefaItem v-for="(tarefa, index) in tarefas" :key="index" :tarefa="tarefa" @onDelete="deleteTask(tarefa)" @onUpdate="updateTask(tarefa)"/>
         <BoxItem v-if="listaEstaVazia">
           Você não está muito produtivo hoje :(
         </BoxItem>
@@ -36,7 +36,8 @@ export default defineComponent({
 
   data () {
     return {
-      tarefas: [] as ITarefa[]
+      tarefas: [] as ITarefa[],
+      message: "",
     }
   },
 
@@ -47,10 +48,6 @@ export default defineComponent({
   },
 
   methods: {
-    salvarTarefa (tarefa: ITarefa) {
-      
-      this.saveTask(tarefa);
-    },
 
     saveTask(tarefa:any) {
       let data = {
@@ -86,8 +83,21 @@ export default defineComponent({
           console.log(e);
         });
     },
+
+    updateTask(tarefa:ITarefa) {
+      TaskDataService.update(tarefa.id, tarefa)
+        .then((response: ResponseData) => {
+          console.log(response.data);
+          this.message = "Task was updated!";
+          this.retrieveTasks();
+        })
+        .catch((e: Error) => {
+          console.log(e);
+        });
+    },
+
     deleteTask(tarefa:ITarefa) {
-      tarefa.deleting = true;
+      //tarefa.deleting = true;
       TaskDataService.delete(tarefa.id)
         .then((response: ResponseData) => {
           console.log(response.data);

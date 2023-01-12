@@ -13,7 +13,12 @@ class TaskDataService {
     return http.post("/tasks", data);
   }
 
+  //update(id: any, data: any): Promise<any> {
+  //  return http.put(`/tasks/${id}`, data);
+  //}
+  
   update(id: any, data: any): Promise<any> {
+    console.log(data);
     return http.put(`/tasks/${id}`, data);
   }
 

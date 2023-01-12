@@ -4,5 +4,7 @@ export default interface ITarefa {
     descricao: string,
     title: string,
     time: string,
-    deleting: boolean
+    deleting: boolean,
+    updating: boolean,
+    saving: boolean
 }

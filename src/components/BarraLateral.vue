@@ -1,7 +1,7 @@
 <template>
     <header>
         <h1>
-            <img src="../assets/logo.png" alt="">
+            <img src="../assets/logo-sm.png" alt="">
         </h1>
     </header>
 </template>
@@ -17,7 +17,7 @@ export default defineComponent({
 
 <style scoped>
 header {
-    background: #0d3b66;
+    background: #2A75BC;
     width: 100%;
     height: 100vh;
     padding: 0.5rem;
