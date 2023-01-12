@@ -50,6 +50,7 @@ export default defineComponent({
       message: "",
       displayMsg: false,
       loading: false,
+      timeoutId: 0
     }
   },
 
@@ -121,9 +122,12 @@ export default defineComponent({
     },
 
     notify() {
+      if (this.timeoutId) {
+        clearTimeout(this.timeoutId);
+    }
       this.loading = false;
       this.displayMsg = true;
-      setInterval(() => {
+      this.timeoutId = setInterval(() => {
             this.displayMsg = false;
       }, 1500)
     }
