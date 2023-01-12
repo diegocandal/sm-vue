@@ -2,15 +2,15 @@
 
     <div class="is-flex is-align-items-center is-justify-content-space-between">
 
-        <StopwatchItem :tempoEmSegundos="tempoEmSegundos" />
+        <StopwatchItem :timeInSeconds="timeInSeconds" />
 
-        <button class="button" @click="iniciar" :disabled="cronometroRodando">
+        <button class="button" @click="start" :disabled="countingTime">
             <span class="icon">
                 <i class="fas fa-play"></i>
             </span>
             <span>play</span>
         </button>
-        <button class="button" @click="finalizar" :disabled="!cronometroRodando">
+        <button class="button" @click="stop" :disabled="!countingTime">
             <span class="icon">
                 <i class="fas fa-stop"></i>
             </span>
@@ -34,24 +34,24 @@ export default defineComponent({
     },
     data() {
         return {
-            tempoEmSegundos: 0,
-            cronometro: 0,
-            cronometroRodando: false
+            timeInSeconds: 0,
+            stopWatch: 0,
+            countingTime: false
         }
     },
     methods: {
-        iniciar() {
-            // começar contagem
-            this.cronometroRodando = true;
-            this.cronometro = setInterval(() => {
-                this.tempoEmSegundos += 1;
+        start() {
+            // start counting
+            this.countingTime = true;
+            this.stopWatch = setInterval(() => {
+                this.timeInSeconds += 1;
             }, 1000)
         },
-        finalizar() {
-            this.cronometroRodando = false;
-            clearInterval(this.cronometro)
-            this.$emit('onStopTimer', this.tempoEmSegundos)
-            this.tempoEmSegundos = 0;
+        stop() {
+            this.countingTime = false;
+            clearInterval(this.stopWatch)
+            this.$emit('onStopTimer', this.timeInSeconds)
+            this.timeInSeconds = 0;
         }
     }
 })

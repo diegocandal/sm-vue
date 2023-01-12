@@ -1,11 +1,11 @@
 <template>
     <div class="box">
         <div class="columns">
-            <div class="column is-8" role="form" aria-label="Formulário para criação de uma nova task">
-                <input type="text" class="input" placeholder="Qual task você deseja iniciar?" v-model="title"/>
+            <div class="column is-8" role="form" aria-label="New task form">
+                <input type="text" class="input" placeholder="Type here your awesome new task :)" v-model="title"/>
             </div>
             <div class="column">
-                <TimerItem @onStopTimer="finalizarTask" />
+                <TimerItem @onStopTimer="callTaskSaver" />
 
             </div>
         </div>
@@ -19,7 +19,7 @@ import TimerItem from './Timer.vue';
 
 export default defineComponent({
     name: 'FormItem',
-    emits: ['aoSalvarTask'],
+    emits: ['onSaveTask'],
     components: {
         TimerItem
     },
@@ -29,9 +29,9 @@ export default defineComponent({
         }
     },
     methods: {
-        finalizarTask(tempoDecorrido: number) : void {
-            this.$emit('aoSalvarTask', {
-                time: new Date(tempoDecorrido * 1000).toISOString().substring(11, 19).toString(),
+        callTaskSaver(elapsedTime: number) : void {
+            this.$emit('onSaveTask', {
+                time: new Date(elapsedTime * 1000).toISOString().substring(11, 19).toString(),
                 title: this.title
             })
             this.title = '';

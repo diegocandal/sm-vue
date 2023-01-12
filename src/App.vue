@@ -4,10 +4,10 @@
       <LeftBar />
     </div>
     <div class="column is-three-quarters">
-      <FormItem @aoSalvarTask="saveTask"/>
-      <div class="lista">
+      <FormItem @onSaveTask="saveTask"/>
+      <div class="list">
         <TaskItem v-for="(task, index) in tasks" :key="index" :task="task" @onDelete="deleteTask(task)" @onUpdate="updateTask(task)"/>
-        <BoxItem v-if="listaEstaVazia">
+        <BoxItem v-if="emptyList">
           Nothing to see here :(
         </BoxItem>
       </div>
@@ -42,7 +42,7 @@ export default defineComponent({
   },
 
   computed: {
-    listaEstaVazia () : boolean {
+    emptyList () : boolean {
       return this.tasks.length === 0
     }
   },
@@ -113,7 +113,7 @@ export default defineComponent({
 </script>
 
 <style>
-.lista {
+.list {
   padding: 1.25rem;
 }
 </style>

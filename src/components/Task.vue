@@ -33,7 +33,6 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-//import StopwatchItem from './Stopwatch.vue';
 import ITask from '../interfaces/ITask'
 import BoxItem from './Box.vue';
 
@@ -41,7 +40,6 @@ export default defineComponent({
     name: 'TaskItem',
     emits: ['onDelete','onUpdate'],
     components: {
-        //StopwatchItem,
         BoxItem
     },
     data (){
