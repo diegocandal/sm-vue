@@ -1,4 +1,10 @@
-# alura-tracker
+# Tracker
+
+## Create your .env file and insert the correct api-url
+```
+cp .env.example .env
+```
+
 
 ## Project setup
 ```
