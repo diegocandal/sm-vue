@@ -13,20 +13,14 @@
           <progress v-if="loading" class="progress is-small is-primary" max="100"></progress>
         </div>
         
-        <BoxItem v-if="emptyList && !loading">
-          Nothing to see here :(
-          </BoxItem>
+        <BoxItem v-if="emptyList && !loading">Nothing to see here :(</BoxItem>
           
-          <TaskItem v-for="(task, index) in tasks" :key="index" :task="task" @onDelete="deleteTask(task)" @onUpdate="updateTask(task)"/>
+        <TaskItem v-for="(task, index) in tasks" :key="index" :task="task" @onDelete="deleteTask(task)" @onUpdate="updateTask(task)"/>
           
-          
-        </div>
-        
       </div>
-    </main>
-    <div class="notifyItem">
-        <NotifyItem :displayMsg="displayMsg" />
-      </div>
+    </div>
+  </main>
+  <NotifyItem :displayMsg="displayMsg" />
 </template>
 
 <script lang="ts">
@@ -67,6 +61,18 @@ export default defineComponent({
 
   methods: {
 
+    retrieveTasks() {
+      this.loading = true;
+      TaskDataService.getAll()
+        .then((response: ResponseData) => {
+          this.tasks = response.data.data;
+          this.loading = false;
+        })
+        .catch((e: Error) => {
+          console.log(e);
+        });
+    },
+
     saveTask(task:any) {
       this.loading = true;
       let data = {
@@ -74,37 +80,10 @@ export default defineComponent({
         time: (Number.isInteger(task.time)) ? this.convertDate(task.time) : task.time,
       };
       
-
-      //this.doNotify(task.title + 'created');
-      //console.log(task.title);
-      
       TaskDataService.create(data)
         .then((response: ResponseData) => {
-          //console.log(response.data);
           this.tasks.push(response.data.data);
-          //this.retrieveTasks();
-          this.loading = false;
-          this.displayMsg = true;
-          this.doNotify()
-        })
-        .catch((e: Error) => {
-          console.log(e);
-        });
-    },
-
-    convertDate(seconds: number) {
-      //console.log(seconds);
-       return new Date(seconds*1000).toISOString().substring(11, 19)
-    },
-
-    retrieveTasks() {
-      this.loading = true;
-      TaskDataService.getAll()
-        .then((response: ResponseData) => {
-          this.tasks = response.data.data;
-          //console.log(response.data.data);
-          this.loading = false;
-          this.displayMsg = false
+          this.notify()
         })
         .catch((e: Error) => {
           console.log(e);
@@ -112,12 +91,11 @@ export default defineComponent({
     },
 
     updateTask(task:ITask) {
+      this.loading = true;
       TaskDataService.update(task.id, task)
         .then((response: ResponseData) => {
-          //console.log(response.data);
-          this.message = "Task was updated!";
           this.retrieveTasks();
-        
+          this.notify()
         })
         .catch((e: Error) => {
           console.log(e);
@@ -126,26 +104,28 @@ export default defineComponent({
 
     deleteTask(task:ITask) {
       this.loading = true;
-      
       TaskDataService.delete(task.id)
         .then((response: ResponseData) => {
-          //console.log(response.data);
           this.tasks.forEach((item, index) => {
             if(item.id === task.id) this.tasks.splice(index,1);
           })
-          this.loading = false;
-          this.displayMsg = true;
-          this.doNotify()
+          this.notify()
       })
       .catch((e: Error) => {
         console.log(e);
       });
     },
 
-    doNotify() {
-      let time = setInterval(() => {
+    convertDate(seconds: number) {
+       return new Date(seconds*1000).toISOString().substring(11, 19)
+    },
+
+    notify() {
+      this.loading = false;
+      this.displayMsg = true;
+      setInterval(() => {
             this.displayMsg = false;
-      }, 2000)
+      }, 1500)
     }
 
   },    
@@ -164,13 +144,6 @@ export default defineComponent({
 
 .progressBar {
   min-height: 1.5rem;
-}
-
-.notifyItem {
-  position: absolute;
-  top: 90%;
-  left: 50%;
-  transform: translate(-50%, -50%);
 }
 
 </style>

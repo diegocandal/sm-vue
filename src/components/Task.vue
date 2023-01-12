@@ -57,20 +57,17 @@ export default defineComponent({
     methods: {    
         deleteTask(task: ITask) {
             task.deleting = true;
-            //console.log(task.id);
             this.$emit('onDelete', task.id)
         },
 
         displayTaskUpdateField(task: ITask) {
             this.title = task.title;
             task.updating = true;
-            //console.log(task.id);
         },
 
         updateTask(task: ITask) {
             task.saving = true;
             task.title = this.title;
-            //console.log(task.id);
             this.$emit('onUpdate', task)
         },
 

@@ -8,7 +8,7 @@
             <span class="icon">
                 <i class="fas fa-play"></i>
             </span>
-            <span>play</span>
+            <span>start</span>
         </button>
         <button class="button" @click="stop" :disabled="!countingTime">
             <span class="icon">
