@@ -1,6 +1,8 @@
 export default interface ITarefa {
+    id: number,
     duracaoEmSegundos : number,
     descricao: string,
     title: string,
-    time: string
+    time: string,
+    deleting: boolean
 }

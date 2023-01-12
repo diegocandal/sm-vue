@@ -7,6 +7,11 @@
             <div class="column">
                 {{ tarefa.time }}
             </div>
+            <div class="column">
+                <button class="button is-danger" @click="deleteTask" :disabled="tarefa.deleting">
+                    Delete
+                </button>
+            </div>
         </div>
 
     </BoxItem>
@@ -20,15 +25,25 @@ import BoxItem from './Box.vue';
 
 export default defineComponent({
     name: 'TarefaItem',
+    emits: ['onDelete'],
     components: {
         //CronoMetro,
         BoxItem
     },
+
     props: {
         tarefa: {
             type: Object as PropType<ITarefa>,
             required: true
         }
+    },
+    
+    methods: {    
+        deleteTask() {
+            //this.tarefa.deleting = true;
+            console.log(this.tarefa.id);
+            this.$emit('onDelete', this.tarefa.id)
+        },
     }
 })
 
