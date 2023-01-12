@@ -2,10 +2,10 @@
     <BoxItem>
         <div class="columns">
             <div class="column is-7">
-                {{tarefa.descricao || 'Tarefa sem descrição' }}
+                {{tarefa.title || 'Tarefa sem descrição' }}
             </div>
             <div class="column">
-                <CronoMetro :tempoEmSegundos="tarefa.duracaoEmSegundos"/>
+                {{ tarefa.time }}
             </div>
         </div>
 
@@ -14,14 +14,14 @@
 
 <script lang="ts">
 import { defineComponent, PropType } from 'vue';
-import CronoMetro from './Cronometro.vue';
+//import CronoMetro from './Cronometro.vue';
 import ITarefa from '../interfaces/ITarefa'
 import BoxItem from './Box.vue';
 
 export default defineComponent({
     name: 'TarefaItem',
     components: {
-        CronoMetro,
+        //CronoMetro,
         BoxItem
     },
     props: {

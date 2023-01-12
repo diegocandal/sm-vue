@@ -22,6 +22,8 @@ import FormuLario from './components/Formulario.vue';
 import TarefaItem from './components/Tarefa.vue';
 import ITarefa from './interfaces/ITarefa';
 import BoxItem from './components/Box.vue';
+import ResponseData from "@/types/ResponseData";
+import TaskDataService from "@/services/TaskDataService";
 
 export default defineComponent({
   name: 'App',
@@ -31,21 +33,62 @@ export default defineComponent({
     TarefaItem,
     BoxItem
   },
+
   data () {
     return {
       tarefas: [] as ITarefa[]
     }
   },
+
   computed: {
     listaEstaVazia () : boolean {
       return this.tarefas.length === 0
     }
   },
+
   methods: {
     salvarTarefa (tarefa: ITarefa) {
-      this.tarefas.push(tarefa)
-    }
-  }
+      this.tarefas.push(tarefa);
+      this.saveTask(tarefa);
+    },
+
+    saveTask(tarefa:any) {
+      let data = {
+        title: tarefa.descricao,
+        time: this.convertDate(tarefa.duracaoEmSegundos),
+      };
+
+      TaskDataService.create(data)
+        .then((response: ResponseData) => {
+          //this.task.id = response.data.id;
+          console.log(response.data);
+          //this.submitted = true;
+        })
+        .catch((e: Error) => {
+          console.log(e);
+        });
+    },
+
+    convertDate(seconds: number) {
+       return new Date(seconds*1000).toISOString().substring(11, 19)
+    },
+
+    retrieveTasks() {
+    TaskDataService.getAll()
+      .then((response: ResponseData) => {
+        this.tarefas = response.data.data;
+        console.log(response.data.data);
+        //console.log(this.tasks);
+      })
+      .catch((e: Error) => {
+        console.log(e);
+      });
+    },
+  },    
+
+  mounted() {
+    this.retrieveTasks();
+  },
 
 });
 </script>
