@@ -54,8 +54,8 @@ export default defineComponent({
 
     saveTask(tarefa:any) {
       let data = {
-        title: tarefa.descricao,
-        time: this.convertDate(tarefa.duracaoEmSegundos),
+        title: tarefa.title,
+        time: (Number.isInteger(tarefa.time)) ? this.convertDate(tarefa.time) : tarefa.time,
       };
 
       TaskDataService.create(data)
@@ -70,6 +70,7 @@ export default defineComponent({
     },
 
     convertDate(seconds: number) {
+      console.log(seconds);
        return new Date(seconds*1000).toISOString().substring(11, 19)
     },
 

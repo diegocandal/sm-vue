@@ -30,9 +30,13 @@ export default defineComponent({
     },
     methods: {
         finalizarTarefa(tempoDecorrido: number) : void {
+            //console.log(new Date(tempoDecorrido*1000).toISOString().substring(11, 19).toString());
+            //console.log(new Date(tempoDecorrido*1000).toISOString().substring(11, 19));
+            //console.log(new Date(tempoDecorrido*1000).toISOString());
+            //console.log(tempoDecorrido);
             this.$emit('aoSalvarTarefa', {
-                duracaoEmSegundos: tempoDecorrido,
-                descricao: this.descricao
+                time: new Date(tempoDecorrido * 1000).toISOString().substring(11, 19).toString(),
+                title: this.descricao
             })
             this.descricao = '';
         }
